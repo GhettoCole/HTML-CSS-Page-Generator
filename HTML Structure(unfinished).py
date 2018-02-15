@@ -198,6 +198,7 @@ class HTML_Generator:
             required = "required"
         else:
             required = "N/A"
+      # This uses Bootstrap, will include bootstrap options
         content = """
         <form id="main-contact-form" class="contact-form" name="contact-form" method="{0}" action="{1}">
                     <div class="col-sm-5 col-sm-offset-1">
@@ -419,6 +420,7 @@ def main():
 
     tag = None
     stop = False
+  
 
 if __name__ == "__main__":
     main()
