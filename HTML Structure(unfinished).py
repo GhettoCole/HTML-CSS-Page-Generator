@@ -13,6 +13,7 @@ class HTML_Generator:
 
     def meta_data_tags(self, keywords, content_description="Generator"):
 
+        # meta data tags for the head section
         meta_data = [
             "<meta name='viewport' content='width=device-width, initial-scale=1'>",
             "<meta charset='utf-8'>",
@@ -68,7 +69,7 @@ class HTML_Generator:
     def paragraph_tag(self, data):
         return "<p> {} </p>".format(data)
 
-    def image_tag(src=None, alt=None, height=450, width=720, border=None):
+    def image_tag(self, src=None, alt=None, height=450, width=720, border=None):
         if src is None and alt is None:
             return False
         if src is not None and (alt is None or alt is not None):
@@ -198,7 +199,6 @@ class HTML_Generator:
             required = "required"
         else:
             required = "N/A"
-      # This uses Bootstrap, will include bootstrap options
         content = """
         <form id="main-contact-form" class="contact-form" name="contact-form" method="{0}" action="{1}">
                     <div class="col-sm-5 col-sm-offset-1">
@@ -386,8 +386,8 @@ class HTML_Generator:
 
 
 def main():
-    # Generator = HTML_Generator()
-    # file = open('index.html', 'wb')
+    Generator = HTML_Generator()
+    file = open('index.html', 'wb')
     opts = [
         '--metadata', '--dividers', '--paragraph', '--image',
         '--header', '--text-formatting', '--footer', '--line',
@@ -418,9 +418,123 @@ def main():
     else:
         pass
 
-    tag = None
+    # tag = None
     stop = False
-  
+    while not stop:
+        input_tag = input("Enter tag(--metadata etc.):  ")
+        if input_tag == "--metadata":
+            keywords = input("Enter keywords:  ")
+            print()
+            content_discription = input("Enter content description:   ")
+            # check if both exist
+            if keywords and content_discription:
+                file.write(Generator.meta_data_tags(keywords, content_description))
+            elif keywords and not content_discription:
+                file.write(Generator.meta_data_tags(keywords))
+            elif not keywords and not content_discription:
+                pass
+        elif input_tag == "--dividers":
+            tag_type == ['div', 'section', 'aside', 'header', 'span']
+            x = 1
+            print('----------- Choose tag type ------------')
+            for i in range(len(tag_type)):
+                print("[{}]\t".format(i), tag_type[i], end='\n')
+                i += 1
+            choice = int(input("Choose tag type:  "))
+            if choice == 1:
+                file.write(Generator.dividers_tags())
+            elif choice == 2:
+                file.write(Generator.dividers_tags(False, True, False, False, False))
+            elif choice == 3:
+                file.write(Generator.dividers_tags(False, False, True, False, False))
+            elif choice == 4:
+                file.write(Generator.dividers_tags(False, False, False, True, False))
+            elif choice == 5:
+                file.write(Generator.dividers_tags(False, False, False, False, True))
+            elif choice is None:
+                file.write(Generator.dividers_tags())
+            else:
+                pass
+        elif input_tag == "--paragraph":
+            data = input("Enter paragraph data:   ")
+            if data is not None or data != '':
+                file.write(Generator.paragraph_tag(data))
+            else:
+                pass
+        elif input_tag == "--image":
+            src = input("Enter image's path relative to the site's directory:  ")
+            alt = input("Enter alternative text, incase image doesn't show:  ")
+            h = int(input("Enter image height:  "))
+            w = int(input("Enter image width:  "))
+            if src and alt:
+                if h is None and w is None:
+                    file.write(Generator.image_tag(src, alt))
+                elif h is not None and w is None:
+                    file.write(Generator.image_tag(src, alt, h))
+                else:
+                    pass
+            else:
+                pass
+        elif input_tag == "--header":
+            types = [x for x in range(1, 7)]
+            type_description = [
+                            "Biggest", "Bigger", "Big",
+                            "Smaller", "Small", "Smallest"
+                            ]
+            help_ = input("Do you need help:  ")
+            if help_ in ("Yes", "y", "YES", "Y"):
+                for x in zip(types, type_description):
+                    print(repr(x[1:-1]), end=" ")
+            elif help_ in ("No", "N", "n", "no"):
+                pass
+            else:
+                print("Option Error")
+            header_data = input("Enter header information:   ")
+            header_type = int(input())
+            if header_type == 1:
+                file.write(Generator.header_tags(header_type, header_data))
+            elif header_type == 2:
+                file.write(Generator.header_tags(header_type, header_data))
+            elif header_type == 3:
+                file.write(Generator.header_tags(header_type, header_data))
+            elif header_type == 4:
+                file.write(Generator.header_tags(header_type, header_data))
+            elif header_type == 5:
+                file.write(Generator.header_tags(header_type, header_data))
+            elif header_type == 6:
+                file.write(Generator.header_tags(header_type, header_data))
+            else:
+                pass
+        elif input_tag == "--comment":
+            data = input("Enter comment data:   ")
+            if not data:
+                print("Error: Comment cannot be empty")
+            else:
+                file.write(Generator.comment(data))
+        elif input_tag == "--link":
+            href = input("Enter the hyperlink reference of the link:  ")
+            target = input("Enter target type(_blank, _parent etc.):   ")
+            if href and target:
+                if href.startswith("https://") or href.startswith("https://"):
+                    file.write(Generator.link_tag(href, target))
+                else:
+                    pass
+            elif href and not target:
+                if href.startswith("https://") or href.startswith("https://"):
+                    file.write(Generator.link_tag(href))
+                else:
+                    pass
+            else:
+                pass
+        elif input_tag == "--line":
+            border = int(input("Enter border-width:  "))
+            if border:
+                file.write(Generator.horizontal_line_tag(border))
+            file.write(Generator.horizontal_line_tag())
+        elif input_tag == "--break-line":
+            file.write(Generator.break_line_tag())
+        elif input_tag == "--video":
+
 
 if __name__ == "__main__":
     main()
