@@ -535,6 +535,7 @@ def main():
             file.write(Generator.break_line_tag())
         elif input_tag == "--video":
 
+#             Still not finished, Have few more hundreds of lines of code to script for automating CSS, JS, PHP and SQL.
 
 if __name__ == "__main__":
     main()
